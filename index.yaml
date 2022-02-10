@@ -1,0 +1,19 @@
+apiVersion: v1
+entries:
+  stardog-az:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-02-10T12:46:17.021357-05:00"
+    description: Helm chart to deploy Stardog Cluster and associated services
+    digest: b8bd2c22d7575b26340c3ae9969cb5fc8e6fc44aac5c58dcbff6b3b843f20042
+    home: https://github.com/stardog-union/helm-charts
+    icon: https://s3.amazonaws.com/stardog-logos.public/stardog-logo.png
+    maintainers:
+    - email: tech@stardog.com
+      name: Stardog Union
+      url: https://www.stardog.com
+    name: stardog-az
+    urls:
+    - stardog-az-2.0.5.tgz
+    version: 2.0.5
+generated: "2022-02-10T12:46:17.019177-05:00"
