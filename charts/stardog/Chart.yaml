@@ -9,8 +9,8 @@ maintainers:
   - name: Stardog Union
     email: tech@stardog.com
     url: https://www.stardog.com
-dependencies:
-  - name: zookeeper
-    version: 5.5.1
-    repository: https://charts.bitnami.com/bitnami
-    condition: zookeeper.enabled
+# dependencies:
+#   - name: zookeeper
+#     version: 5.5.1
+#     repository: https://charts.bitnami.com/bitnami
+#     condition: zookeeper.enabled
