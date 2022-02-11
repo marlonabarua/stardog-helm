@@ -3,14 +3,14 @@ entries:
   stardog-az:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-02-10T23:59:17.528136-05:00"
+    created: "2022-02-11T00:20:18.907352-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper
       repository: https://charts.bitnami.com/bitnami
-      version: 5.5.1
+      version: 6.1.0
     description: Helm chart to deploy Stardog Cluster and associated services
-    digest: 9bf673913fa78c88ac9cd2671403fd47415dba8231ae620e9b13c4cb5f1bd6a6
+    digest: 34e3d3f7daa21bc9f8ff3a4a69ba5ad474d1b55816f72f697dc3a84f1ce4f423
     home: https://marlonabarua.github.io/stardog-helm/
     icon: https://s3.amazonaws.com/stardog-logos.public/stardog-logo.png
     maintainers:
@@ -21,4 +21,4 @@ entries:
     urls:
     - stardog-az-2.0.5.tgz
     version: 2.0.5
-generated: "2022-02-10T23:59:17.523768-05:00"
+generated: "2022-02-11T00:20:18.902289-05:00"

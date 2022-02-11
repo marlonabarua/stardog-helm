@@ -11,6 +11,6 @@ maintainers:
     url: https://www.stardog.com
 dependencies:
   - name: zookeeper
-    version: 5.5.1
+    version: 6.1.0
     repository: https://charts.bitnami.com/bitnami
     condition: zookeeper.enabled
