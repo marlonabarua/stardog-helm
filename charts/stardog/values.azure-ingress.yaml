@@ -1,0 +1,62 @@
+---
+service:
+  type: ClusterIP
+
+# The storage class and size to use for Stardog home volumes for the pods
+persistence:
+  storageClass: default #premium
+
+#we recommend to have at least 3 pool in your aks cluster (system pool, a pool dedicated for the stardog server nodes, and one dedicated for zookeeper nodes )
+# az aks nodepool add --node-taints workload:stardog:NoSchedule --labels target:stardog ...
+
+#nodeSelector:
+#  target: stardog
+#
+#tolerations:
+#  - key: workload
+#    value: stardog
+#    effect: NoSchedule
+
+# these allow you to configure the UID and group ID used by the container when it's running, and the fsGroup sets the group id for the volume-mounts
+# if enabled: false, then the whole block is skipped
+securityContext:
+  enabled: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+#default below assume that ingress-nginx
+ingress:
+  class: nginx
+#  class: azure/application-gateway
+  host: "{SUBDOMAIN}.eastus2.cloudapp.azure.com"
+
+  tls:
+    clusterIssuer: selfsigned
+#    clusterIssuer: letsencrypt
+##
+    spec :
+    - hosts :
+      - "{SUBDOMAIN}.eastus2.cloudapp.azure.com"
+      secretName: stardog-tls-secret
+
+# Settings to use for the ZooKeeper chart that Stardog depends on.
+# The full set of options can be found on the bitname ZK chart:
+# https://github.com/bitnami/charts/tree/master/bitnami/zookeeper
+
+zookeeper:
+  logLevel: ERROR
+  persistence:
+    storageClass: default #premium
+
+#we recommend to have at least 3 pool in your aks cluster (system pool, a pool dedicated for the stardog server nodes, and one dedicated for zookeeper nodes )
+# az aks nodepool add --node-taints workload:zookeeper:NoSchedule --labels target:zookeeper ...
+
+#  nodeSelector:
+#    target: zookeeper
+#
+#  tolerations:
+#    - key: workload
+#      value: zookeeper
+#      effect: NoSchedule
+

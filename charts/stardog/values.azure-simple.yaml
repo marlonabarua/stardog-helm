@@ -1,0 +1,43 @@
+---
+# Making service available at http://{DNS_LABEL}.eastus2.cloudapp.azure.com:5820/admin/cluster
+#service:
+#  annotations:
+#    service.beta.kubernetes.io/azure-dns-label-name: {DNS_LABEL}
+#    service.beta.kubernetes.io/azure-load-balancer-tcp-idle-timeout: "30"
+
+persistence:
+  storageClass: default #premium
+
+#we recommend to have at least 3 pool in your aks cluster (system pool, a pool dedicated for the stardog server nodes, and one dedicated for zookeeper nodes )
+# az aks nodepool add --node-taints workload:stardog:NoSchedule --labels target:stardog ...
+
+#nodeSelector:
+#  target: stardog
+
+#tolerations:
+#  - key: workload
+#    value: stardog
+#    effect: NoSchedule
+
+# these allow you to configure the UID and group ID used by the container when it's running, and the fsGroup sets the group id for the volume-mounts
+# if enabled: false, then the whole block is skipped
+securityContext:
+  enabled: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+zookeeper:
+  persistence:
+    storageClass: default #premium
+
+#we recommend to have at least 3 pool in your aks cluster (system pool, a pool dedicated for the stardog server nodes, and one dedicated for zookeeper nodes )
+# az aks nodepool add --node-taints workload:zookeeper:NoSchedule --labels target:zookeeper ...
+
+#  nodeSelector:
+#    target: zookeeper
+
+#  tolerations:
+#    - key: workload
+#      value: zookeeper
+#      effect: NoSchedule

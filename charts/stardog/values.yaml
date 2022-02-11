@@ -26,9 +26,6 @@ terminationGracePeriodSeconds: 300
 # Java args for Stardog server
 javaArgs: "-Xmx2g -Xms2g -XX:MaxDirectMemorySize=1g"
 
-# Additional arguments passed to Stardog at server start
-serverStartArgs: ""
-
 # Stardog Java perf args, e.g. for changing Java gc
 stardogPerfJavaArgs: "-XX:SoftRefLRUPolicyMSPerMB=1 -XX:+UseG1GC -XX:+UseCompressedOops"
 
@@ -44,11 +41,7 @@ ports:
   server: 5820
   # sql: 5806
 
-# The location Stardog will use for temporary space (i.e. java.io.tmpdir).
-# If you choose to place this in STARDOG_HOME (/var/opt/stardog) for performance
-# reasons, ensure that it does not conflict with any possible database names.
-# For example, a good choice might be /var/opt/stardog/tmp-4646E7B662A7.
-# If the directory does not exist it will be created.
+# The location Stardog will use for temporary space (i.e. java.io.tmpdir)
 tmpDir: /tmp
 
 # The initial password for the Stardog admin user
@@ -117,12 +110,6 @@ readinessProbe:
   periodSeconds: 5
   timeoutSeconds: 3
 
-# Add additional settings to the stardog config file. e.g.
-# additionalStardogProperties: |
-#   logging.slow_query.enabled=true
-#   logging.slow_query.time=10s
-additionalStardogProperties: |
-
 # The busybox image is used as light weight init container as a part of
 # stardog initialization.
 busybox:
@@ -133,6 +120,16 @@ busybox:
     pullPolicy: IfNotPresent
     # username:
     # password:
+
+#ingress:
+#  class: ""
+#  host: "*"  #routing
+  #tls:
+    #issuer: letsencrypt
+    #spec :
+    #- hosts :
+    #  - {HOST.DOMAIN}
+    #  secretName: stardog-tls-secret
 
 # Settings to use for the ZooKeeper chart that Stardog depends on.
 # The full set of options can be found on the bitname ZK chart:
@@ -171,3 +168,4 @@ zookeeper:
 #    failureThreshold: 6
 #    successThreshold: 1
 #    probeCommandTimeout: 2
+

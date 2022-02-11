@@ -1,0 +1,49 @@
+{{ if hasKey .Values "ingress" }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+  namespace: stardog
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    {{ if eq .Values.ingress.class "nginx" }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/app-root: "/admin/alive"
+    {{end}}
+    {{ if hasKey .Values.ingress "tls" }}
+      {{ if hasKey .Values.ingress.tls "clusterIssuer" }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer }}
+      {{ else if hasKey .Values.ingress.tls "appgwSSL" }}
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: {{ .Values.ingress.tls.appgwSSL }}
+      {{ end }}
+    {{ end }}
+spec:
+  {{ if hasKey .Values.ingress "tls" }}
+    {{- if not (hasKey .Values.ingress.tls "appgwSSL") }}
+  tls:
+    {{ with .Values.ingress.tls.spec }}
+    {{ toYaml . | nindent 4 }}
+    {{ end }}
+    {{ end }}
+  {{ end }}
+  rules:
+  - http:
+      paths:
+      {{ if eq .Values.ingress.class "nginx" }}
+      - path: /(.*)
+      {{ else if eq .Values.ingress.class "azure/application-gateway" }}
+      - path: /*
+      {{ else }}
+        {{ fail "Currently only nginx and azure/application-gateway are supported" }}
+      {{ end }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "stardog.fullname" . }}
+            port:
+              number: {{ .Values.ports.server}}
+    {{ if ne .Values.ingress.host "*"}}
+    host: "{{ .Values.ingress.host }}"
+    {{end}}
+{{ end }}
